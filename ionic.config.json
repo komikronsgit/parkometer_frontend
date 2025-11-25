@@ -1,0 +1,7 @@
+{
+  "name": "packometer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
