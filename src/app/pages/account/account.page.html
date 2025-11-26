@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngIf="user">
+    <ion-card-header>
+      <ion-card-title>{{ user.name }}</ion-card-title>
+      <ion-card-subtitle *ngIf="user.isGuest">Guest User</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p *ngIf="user.email">Email: {{ user.email }}</p>
+      <p *ngIf="user.phone">Phone: {{ user.phone }}</p>
+      <p *ngIf="user.carType">Car Type: {{ user.carType }}</p>
+      <p *ngIf="user.plate">License Plate: {{ user.plate }}</p>
+
+      <ion-button expand="block" color="danger" class="ion-margin-top" (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Reservations</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let r of reservations">
+      <ion-label>
+        <h2>{{ r.lotName }} - {{ r.destination }}</h2>
+        <p>{{ r.startTime }} → {{ r.endTime }} ({{ r.status }})</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button size="small" (click)="changeTime(r)">Edit</ion-button>
+        <ion-button size="small" color="danger" (click)="confirmDelete(r)">Delete</ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item *ngIf="reservations.length === 0">
+      <ion-label>No reservations yet.</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+

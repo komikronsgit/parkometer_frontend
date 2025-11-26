@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Packometer</ion-title>
+    <ion-buttons slot="end">
+  <ion-button routerLink="/account">Account</ion-button>
+</ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="home-bg">
+  <div class="overlay"></div>
+
+  <div class="search-container ion-padding">
+    <ion-item lines="none">
+      <ion-input
+        placeholder="Search destination (e.g. Sheridan College)"
+        [(ngModel)]="destination"
+        (keyup.enter)="search()">
+      </ion-input>
+      <ion-button slot="end" shape="round" (click)="search()">Search</ion-button>
+    </ion-item>
+  </div>
+</ion-content>

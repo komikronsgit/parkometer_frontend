@@ -1,0 +1,15 @@
+.home-bg {
+  --background: transparent;
+  background: url("assets/Screenshot.png") center center / cover no-repeat fixed;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.search-container {
+  position: relative;
+  margin-top: 10vh;
+}

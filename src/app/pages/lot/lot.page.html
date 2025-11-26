@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/location"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ lot?.name || 'Selected Lot' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ destination }}</ion-card-title>
+      <ion-card-subtitle>Parking lot details</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>Total spaces: {{ totalSpaces }}</p>
+      <p>Available spaces: {{ availableSpaces }}</p>
+
+      <ion-item class="ion-margin-top">
+        <ion-label position="stacked">Start Time</ion-label>
+        <ion-input type="time" [(ngModel)]="startTime"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">End Time</ion-label>
+        <ion-input type="time" [(ngModel)]="endTime"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="ion-margin-top" (click)="onReserve()">
+        Reserve
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
