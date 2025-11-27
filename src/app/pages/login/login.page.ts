@@ -24,8 +24,8 @@ segment: 'login' | 'signup' = 'login';
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  onLogin() {
-    if (this.auth.login(this.email, this.password)) {
+  async onLogin() {
+    if (await this.auth.login(this.name, this.password)) {
       this.router.navigateByUrl('/home');
     }
   }
@@ -35,7 +35,6 @@ segment: 'login' | 'signup' = 'login';
       alert('Passwords do not match');
       return;
     }
-
     this.auth.signUp({
       name: this.name,
       email: this.email,
@@ -48,10 +47,10 @@ segment: 'login' | 'signup' = 'login';
   }
 
   onGuest() {
-  console.log('GUEST BUTTON CLICKED');  // Debug
-  this.auth.continueAsGuest();
+    console.log('GUEST BUTTON CLICKED');  // Debug
+    this.auth.continueAsGuest();
 
-  this.router.navigate(['/home']).then(success => {
+    this.router.navigate(['/home']).then(success => {
     console.log("Navigation result:", success);
   });
 }
