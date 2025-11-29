@@ -9,16 +9,26 @@ export interface Reservation {
   status: 'active' | 'past';
 }
 
+export interface ParkingLot {
+  name: string;
+  availableSpaces: number;
+  distance: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
+
   private selectedDestination = '';
-  private selectedLot: any = null;
+  private selectedLot: ParkingLot | null = null;
+
   private reservations: Reservation[] = [];
   private nextId = 1;
 
-  // Destination & lot selection
+  // -----------------------------
+  // DESTINATION
+  // -----------------------------
   setDestination(dest: string) {
     this.selectedDestination = dest;
   }
@@ -27,16 +37,26 @@ export class ReservationService {
     return this.selectedDestination;
   }
 
-  setLot(lot: any) {
+  // -----------------------------
+  // LOT SELECTED
+  // -----------------------------
+  setSelectedLot(lot: ParkingLot) {
     this.selectedLot = lot;
   }
 
-  getLot(): any {
+  getSelectedLot(): ParkingLot | null {
     return this.selectedLot;
   }
 
-  // Reservations
-  addReservation(destination: string, lotName: string, startTime: string, endTime: string) {
+  // -----------------------------
+  // RESERVATIONS
+  // -----------------------------
+  addReservation(
+    destination: string,
+    lotName: string,
+    startTime: string,
+    endTime: string
+  ) {
     this.reservations.push({
       id: this.nextId++,
       destination,
@@ -55,7 +75,6 @@ export class ReservationService {
     this.reservations = this.reservations.filter(r => r.id !== id);
   }
 
-  // Very simple "change time" – just replaces times
   updateReservationTime(id: number, newStart: string, newEnd: string) {
     const r = this.reservations.find(x => x.id === id);
     if (r) {

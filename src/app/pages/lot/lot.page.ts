@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AlertController, IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, ToastController } from '@ionic/angular/standalone';
+import {
+  IonButton, IonButtons, IonBackButton, IonItem,
+  IonLabel, IonSelect, IonSelectOption, IonContent,
+  IonHeader, IonTitle, IonToolbar, AlertController
+} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { ReservationService } from 'src/app/services/reservation';
-
 
 @Component({
   selector: 'app-lot',
@@ -12,94 +15,114 @@ import { ReservationService } from 'src/app/services/reservation';
   styleUrls: ['./lot.page.scss'],
   standalone: true,
   imports: [
-    IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar, 
-    CommonModule, 
-    FormsModule, 
-    IonButton, 
-    IonBackButton, 
-    IonCard, 
-    IonCardHeader, 
-    IonCardTitle, 
-    IonCardSubtitle, 
-    IonCardContent, 
-    IonLabel, 
-    IonItem, 
-    IonButtons]
+    CommonModule, FormsModule, IonButton, IonButtons, IonBackButton,
+    IonItem, IonLabel, IonSelect, IonSelectOption, IonContent,
+    IonHeader, IonTitle, IonToolbar
+  ]
 })
 export class LotPage implements OnInit {
-lot: any;
-  destination = '';
-  totalSpaces = 50;
-  availableSpaces = 12;
 
-  startTime = '';
-  endTime = '';
+  lotName: string = '';
+  availableSpaces: number = 0;
+  distance: string = '';
+
+  allTimes: string[] = [];
+  validEndTimes: string[] = [];
+
+  startTime: string = '';
+  endTime: string = '';
 
   constructor(
-    private resService: ReservationService,
-    private alertCtrl: AlertController,
-    private toastCtrl: ToastController,
-    private router: Router
+    private router: Router,
+    private reservationService: ReservationService,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
-    this.lot = this.resService.getLot();
-    this.destination = this.resService.getDestination();
+  this.generateTimes();
+
+  const lot = this.reservationService.getSelectedLot();
+  
+  if (lot) {
+    this.lotName = lot.name;
+    this.availableSpaces = lot.availableSpaces;
+    this.distance = lot.distance;
+  }
+}
+
+
+  generateTimes() {
+    const times: string[] = [];
+    for (let h = 0; h < 24; h++) {
+      for (let m = 0; m < 60; m += 5) {
+        const hour = h % 12 === 0 ? 12 : h % 12;
+        const minute = m.toString().padStart(2, '0');
+        const ampm = h < 12 ? 'AM' : 'PM';
+        times.push(`${hour}:${minute} ${ampm}`);
+      }
+    }
+    this.allTimes = times;
   }
 
-  private isWithinTwoHours(start: string, end: string): boolean {
-    if (!start || !end) return false;
-    const s = new Date(`1970-01-01T${start}`);
-    const e = new Date(`1970-01-01T${end}`);
-    const diffMs = e.getTime() - s.getTime();
-    const diffHours = diffMs / (1000 * 60 * 60);
-    return diffHours > 0 && diffHours <= 2;
+  toDate(timeStr: string): Date {
+    return new Date(`2000-01-01 ${timeStr}`);
   }
 
-  async onReserve() {
-    if (!this.startTime || !this.endTime) {
-      const t = await this.toastCtrl.create({
-        message: 'Please select start and end time.',
-        duration: 2000,
-        color: 'warning',
-      });
-      t.present();
+  updateEndTimes() {
+    if (!this.startTime) {
+      this.validEndTimes = [];
       return;
     }
 
-    if (!this.isWithinTwoHours(this.startTime, this.endTime)) {
-      const t = await this.toastCtrl.create({
-        message: 'Maximum reservation time is 2 hours.',
-        duration: 2000,
-        color: 'danger',
-      });
-      t.present();
-      return;
-    }
+    const start = this.toDate(this.startTime);
+    const maxEnd = new Date(start.getTime() + 2 * 60 * 60 * 1000);
 
-    const alert = await this.alertCtrl.create({
-      header: 'Confirm Reservation',
-      message: 'Are you sure you want to reserve this parking space?',
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Reserve',
-          handler: () => {
-            this.resService.addReservation(
-              this.destination,
-              this.lot?.name ?? 'Selected Lot',
-              this.startTime,
-              this.endTime
-            );
-            this.router.navigateByUrl('/account');
-          },
-        },
-      ],
+    this.validEndTimes = this.allTimes.filter(t => {
+      const tDate = this.toDate(t);
+      return tDate > start && tDate <= maxEnd;
     });
 
-    await alert.present();
+    if (!this.validEndTimes.includes(this.endTime)) {
+      this.endTime = '';
+    }
   }
+
+  async reserve() {
+  if (!this.startTime || !this.endTime) {
+    alert("Please select a valid start and end time.");
+    return;
+  }
+
+    const alertBox = await this.alertCtrl.create({
+      header: 'Confirm Reservation',
+      message: `<strong>Lot:</strong> ${this.lotName}<br>
+      <strong>Start:</strong> ${this.startTime}<br>
+      <strong>End:</strong> ${this.endTime}<br><br>
+      Are you sure you want to reserve this spot?`,
+            buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Confirm',
+          role: 'confirm',
+          handler: () => this.saveReservation()
+        }
+      ]
+    });
+
+
+  await alertBox.present();
+}
+
+
+  private saveReservation() {
+  this.reservationService.addReservation(
+    this.reservationService.getDestination(),
+    this.lotName,
+    this.startTime,
+    this.endTime
+  );
+
+  this.router.navigateByUrl('/account');
+}
+
 }

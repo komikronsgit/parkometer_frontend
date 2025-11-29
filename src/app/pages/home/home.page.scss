@@ -1,15 +1,46 @@
-.home-bg {
-  --background: transparent;
-  background: url("assets/Screenshot.png") center center / cover no-repeat fixed;
+/* Make map fill the whole screen */
+.map-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;      /* IMPORTANT */
+  width: 100%;       /* IMPORTANT */
+  z-index: 0;
 }
 
-.overlay {
+/* Dark overlay to make text readable */
+.map-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
+/* Search bar container at top */
 .search-container {
-  position: relative;
-  margin-top: 10vh;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+/* Make search bar stretch full width */
+.search-item {
+  --background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  padding: 4px 10px;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
 }

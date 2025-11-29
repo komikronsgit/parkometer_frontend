@@ -3,34 +3,38 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/location"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ lot?.name || 'Selected Lot' }}</ion-title>
+    <ion-title>Reserve Parking</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{ destination }}</ion-card-title>
-      <ion-card-subtitle>Parking lot details</ion-card-subtitle>
-    </ion-card-header>
 
-    <ion-card-content>
-      <p>Total spaces: {{ totalSpaces }}</p>
-      <p>Available spaces: {{ availableSpaces }}</p>
+  <h2>{{ lotName }}</h2>
+<p>{{ availableSpaces }} spaces available</p>
+<p>Walk: {{ distance }}</p>
 
-      <ion-item class="ion-margin-top">
-        <ion-label position="stacked">Start Time</ion-label>
-        <ion-input type="time" [(ngModel)]="startTime"></ion-input>
-      </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">End Time</ion-label>
-        <ion-input type="time" [(ngModel)]="endTime"></ion-input>
-      </ion-item>
+  <!-- Start Time Dropdown -->
+  <ion-item class="ion-margin-top">
+    <ion-label>Start Time</ion-label>
+    <ion-select [(ngModel)]="startTime" interface="popover" (ionChange)="updateEndTimes()">
+      <ion-select-option *ngFor="let t of allTimes" [value]="t">
+        {{ t }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-button expand="block" class="ion-margin-top" (click)="onReserve()">
-        Reserve
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+  <!-- End Time Dropdown -->
+  <ion-item>
+    <ion-label>End Time</ion-label>
+    <ion-select [(ngModel)]="endTime" interface="popover">
+      <ion-select-option *ngFor="let t of validEndTimes" [value]="t">
+        {{ t }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="reserve()">
+    Reserve
+  </ion-button>
 </ion-content>

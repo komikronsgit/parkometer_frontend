@@ -2,22 +2,29 @@
   <ion-toolbar color="dark">
     <ion-title>Packometer</ion-title>
     <ion-buttons slot="end">
-  <ion-button routerLink="/account">Account</ion-button>
-</ion-buttons>
-
+      <ion-button routerLink="/account">Account</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="home-bg">
-  <div class="overlay"></div>
+<ion-content fullscreen>
+  <!-- Google Map background -->
+  <div class="map-container" #map></div>
 
+  <!-- Dark overlay to make search bar readable -->
+  <div class="map-overlay"></div>
+
+  <!-- Search bar overlay -->
   <div class="search-container ion-padding">
-    <ion-item lines="none">
-      <ion-input
-        placeholder="Search destination (e.g. Sheridan College)"
-        [(ngModel)]="destination"
-        (keyup.enter)="search()">
-      </ion-input>
+    <ion-item lines="none" class="search-item">
+      <!-- plain input so Google Places can attach easily -->
+      <input
+        #searchInput
+        type="text"
+        class="search-input"
+        placeholder="Search destination"
+        (keyup.enter)="search()"
+      />
       <ion-button slot="end" shape="round" (click)="search()">Search</ion-button>
     </ion-item>
   </div>

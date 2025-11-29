@@ -7,7 +7,7 @@ import { AlertController } from '@ionic/angular';  // <-- FIXED
 
 import {
   IonContent, IonHeader, IonToolbar, IonTitle,
-  IonButton, IonButtons, IonBackButton, IonIcon,
+  IonButton, IonButtons, IonBackButton, 
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent,
   IonList, IonListHeader, IonItem, IonLabel
 } from '@ionic/angular/standalone';
@@ -22,7 +22,7 @@ import { Reservation, ReservationService } from 'src/app/services/reservation';
   styleUrls: ['./account.page.scss'],
   imports: [
     IonContent, IonHeader, IonToolbar, IonTitle,
-    IonButton, IonButtons, IonBackButton, IonIcon,
+    IonButton, IonButtons, IonBackButton,
     IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent,
     IonList, IonListHeader, IonItem, IonLabel,
     CommonModule, FormsModule
