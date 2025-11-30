@@ -52,19 +52,15 @@ export class LocationPage implements OnInit {
   // ----------------------------
   // Load mocked parking lots
   // ----------------------------
-  loadLots() {
-    this.lots = [
-      { name: 'Lot A', availableSpaces: 12, distance: '2 min' },
-      { name: 'Lot B', availableSpaces: 4, distance: '5 min' },
-      { name: 'Lot C', availableSpaces: 20, distance: '1 min' }
-    ];
+  async loadLots() {
+    this.lots = await this.reservationService.getLots();
   }
 
   // ----------------------------
   // User selects a lot
   // ----------------------------
   openLot(lot: ParkingLot) {
-    this.reservationService.setSelectedLot(lot);
+    this.reservationService.setLot(lot);
     this.router.navigateByUrl('/lot');
   }
 

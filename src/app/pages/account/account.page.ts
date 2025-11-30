@@ -48,9 +48,9 @@ export class AccountPage implements OnInit {
     this.loadData();
   }
 
-  loadData() {
+  async loadData() {
     this.user = this.auth.getUser();
-    this.reservations = this.reservationService.getReservations();
+    this.reservations = await this.reservationService.getReservations();
   }
 
   async confirmDelete(res: Reservation) {

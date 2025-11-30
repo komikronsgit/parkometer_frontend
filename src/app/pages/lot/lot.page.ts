@@ -41,7 +41,7 @@ export class LotPage implements OnInit {
   ngOnInit() {
   this.generateTimes();
 
-  const lot = this.reservationService.getSelectedLot();
+  const lot = this.reservationService.getLot();
   
   if (lot) {
     this.lotName = lot.name;
