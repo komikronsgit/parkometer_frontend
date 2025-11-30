@@ -58,12 +58,18 @@ export class ReservationService {
 
   // Reservations
   addReservation(destination: string, lotName: string, startTime: string, endTime: string) {
+    const nowDate: Date = new Date();
+    let startDate: Date = new Date(`2000-01-01 ${startTime}`);
+    let endDate: Date = new Date(`2000-01-01 ${endTime}`);
+    startDate.setFullYear(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+    endDate.setFullYear(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+
     this.http.post<dbFormatReservation>('http://localhost:3000/reservations', {
       username: this.auth.getUser()?.name,
       destination,
       lotName,
-      startTime: new Date(`2000-01-01 ${startTime}`),
-      endTime: new Date(`2000-01-01 ${endTime}`),
+      startTime: startDate,
+      endTime: endDate,
     }).subscribe();
   }
 
@@ -71,7 +77,7 @@ export class ReservationService {
     const savedData = await lastValueFrom(this.http.get<dbFormatReservation[]>(
       `http://localhost:3000/reservations/user/${this.auth.getUser()?.name}`
     ));
-    let reservations: Reservation[] = savedData.map(r => ({
+    return savedData.map(r => ({
       id: r._id,
       destination: r.destination,
       lotName: r.lotName,
@@ -79,7 +85,6 @@ export class ReservationService {
       endTime: new Date(r.endTime).toTimeString().substring(0, 5),
       status: new Date(r.endTime) >= new Date() && new Date(r.startTime) <= new Date() ? 'active' : 'past',
     }));
-    return reservations;
   }
 
   deleteReservation(id: string) {
