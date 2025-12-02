@@ -1,31 +1,20 @@
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-title>Packometer</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/account">Account</ion-button>
-    </ion-buttons>
+    <ion-title>Parkometer</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-  <!-- Google Map background -->
-  <div class="map-container" #map></div>
+<ion-content class="ion-padding">
+  <div class="home-container">
+    <h1>Welcome to Parkometer 🚗</h1>
+    <p>Find and reserve parking spots easily near you!</p>
 
-  <!-- Dark overlay to make search bar readable -->
-  <div class="map-overlay"></div>
+    <ion-button expand="block" color="primary" routerLink="/location">
+      Open Map
+    </ion-button>
 
-  <!-- Search bar overlay -->
-  <div class="search-container ion-padding">
-    <ion-item lines="none" class="search-item">
-      <!-- plain input so Google Places can attach easily -->
-      <input
-        #searchInput
-        type="text"
-        class="search-input"
-        placeholder="Search destination"
-        (keyup.enter)="search()"
-      />
-      <ion-button slot="end" shape="round" (click)="search()">Search</ion-button>
-    </ion-item>
+    <ion-button expand="block" color="secondary" routerLink="/account">
+      My Account
+    </ion-button>
   </div>
 </ion-content>

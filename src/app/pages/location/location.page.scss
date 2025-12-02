@@ -1,0 +1,45 @@
+ion-content {
+  --background: #000; 
+  position: relative;
+}
+
+.map-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.search-container {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+}
+
+.search-item {
+  border-radius: 25px;
+  --background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+ion-input {
+  flex: 1;
+  --padding-start: 10px;
+  font-size: 15px;
+}
+
+ion-button {
+  margin-left: 8px;
+  --border-radius: 20px;
+}

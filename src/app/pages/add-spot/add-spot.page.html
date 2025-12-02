@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Parking Spot</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Spot Name</ion-label>
+    <ion-input [(ngModel)]="spot.name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Address</ion-label>
+    <ion-input [(ngModel)]="spot.address"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Special Timings</ion-label>
+    <ion-checkbox [(ngModel)]="spot.hasSpecialTimings"></ion-checkbox>
+  </ion-item>
+
+  <div *ngIf="spot.hasSpecialTimings">
+    <ion-item>
+      <ion-label position="stacked">From</ion-label>
+      <ion-datetime display-format="HH:mm" [(ngModel)]="spot.timingFrom"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">To</ion-label>
+      <ion-datetime display-format="HH:mm" [(ngModel)]="spot.timingTo"></ion-datetime>
+    </ion-item>
+  </div>
+
+  <ion-item>
+    <ion-label>Paid Spot</ion-label>
+    <ion-checkbox [(ngModel)]="spot.isPaid"></ion-checkbox>
+  </ion-item>
+
+  <ion-item *ngIf="spot.isPaid">
+    <ion-label position="stacked">Price/Hour</ion-label>
+    <ion-input type="number" [(ngModel)]="spot.pricePerHour"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Latitude</ion-label>
+    <ion-input [(ngModel)]="spot.lat" readonly></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Longitude</ion-label>
+    <ion-input [(ngModel)]="spot.lng" readonly></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="primary" (click)="saveSpot()">
+    Save Spot
+  </ion-button>
+</ion-content>
