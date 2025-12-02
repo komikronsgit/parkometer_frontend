@@ -1,24 +1,21 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>Parkometer Map</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/account">Account</ion-button>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
+    <ion-title>Parking near {{ destination }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-  <!-- Leaflet map -->
-  <div id="map" class="map-container"></div>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let lot of lots" (click)="openLot(lot)">
+  <ion-label>
+    <h2>{{ lot.name }}</h2>
+    <p>{{ lot.availableSpaces }} spaces available</p>
+    <p>{{ lot.distance }} walk</p>
+  </ion-label>
+</ion-item>
 
-  <!-- Search bar overlay -->
-  <div class="search-container ion-padding">
-    <ion-item lines="none" class="search-item">
-      <ion-input
-        [(ngModel)]="searchQuery"
-        placeholder="Search destination"
-      ></ion-input>
-      <ion-button shape="round" (click)="searchLocation()">Search</ion-button>
-    </ion-item>
-  </div>
+  </ion-list>
 </ion-content>
