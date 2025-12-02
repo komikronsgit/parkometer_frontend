@@ -16,11 +16,10 @@ import { FormsModule } from '@angular/forms';
 import { SpotService } from '../../services/spot.service';
 import 'leaflet/dist/leaflet.css';
 
-// ✅ Fix: Use same icon URLs as HomePage (from CDN)
 const DefaultIcon = L.icon({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
+  iconUrl: 'assets/leaflet/marker-icon.png',
+  shadowUrl: 'assets/leaflet/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -74,7 +73,6 @@ export class LocationPage implements AfterViewInit {
       });
     });
 
-    // Add spot on map click
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
       this.router.navigate(['/add-spot'], {
