@@ -1,47 +1,43 @@
-/* Make map fill the whole screen */
+/* Fullscreen map layout */
+ion-content,
+.map-wrapper,
+.map-card,
 .map-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;      /* IMPORTANT */
-  width: 100%;       /* IMPORTANT */
-  z-index: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
-/* Dark overlay to make text readable 
-.map-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0);
-  z-index: 1;
-} */
+.map-container {
+  width: 100%;
+  height: calc(100vh - 120px); /* ensures map is visible under the bar */
+}
 
-/* Search bar container at top */
+/* Search bar styling */
 .search-container {
   position: absolute;
-  top: 60px;
-  left: 20px;
-  right: 40px;
-  z-index: 2;
+  top: 70px;
+  width: 100%;
+  z-index: 9999;
 }
 
-/* Make search bar stretch full width */
 .search-item {
-  --background: rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
-  padding: 4px 10px;
-  width: 100%;
+  --background: #1f1f1f;
+  border-radius: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 95%;
+  margin: auto;
 }
 
 .search-input {
-  width: 100%;
   flex: 1;
-  border: none;
   background: transparent;
+  border: none;
   color: white;
   font-size: 16px;
-  outline: none;
 }
 
+.search-input::placeholder {
+  color: #bbbbbb;
+}
