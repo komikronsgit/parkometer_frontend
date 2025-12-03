@@ -30,7 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'reserve',
-    loadComponent: () => import('./reserve/reserve.page').then( m => m.ReservePage)
+    loadComponent: () => import('./pages/reserve/reserve.page').then( m => m.ReservePage)
   }
 
 ];
