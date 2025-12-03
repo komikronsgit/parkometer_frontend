@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+  IonBackButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonTitle,
@@ -23,7 +25,9 @@ declare const google: any;
     IonContent,
     IonHeader,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonButtons,
+    IonBackButton
   ]
 })
 export class LocationPage implements AfterViewInit {
