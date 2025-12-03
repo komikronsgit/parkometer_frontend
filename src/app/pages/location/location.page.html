@@ -1,21 +1,33 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Parking near {{ destination }}</ion-title>
+    <ion-title>Available Parking Lots in {{ destination || 'Selected Area' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-item *ngFor="let lot of lots" (click)="openLot(lot)">
-  <ion-label>
-    <h2>{{ lot.name }}</h2>
-    <p>{{ lot.availableSpaces }} spaces available</p>
-    <p>{{ lot.distance }} walk</p>
-  </ion-label>
-</ion-item>
+<ion-content>
 
-  </ion-list>
+  <div class="location-container">
+
+    <!-- LEFT: MAP -->
+    <div class="map-panel">
+      <div #map class="map-container"></div>
+    </div>
+
+    <!-- RIGHT: LIST -->
+    <div class="list-panel">
+
+      <h2 class="title">Parking Lots Near {{ destination || 'this location' }}</h2>
+
+      <div *ngFor="let lot of parkingLots" class="lot-card" (click)="openLot(lot)">
+        <h3>{{lot.name}}</h3>
+        <p>{{lot.description}}</p>
+        <p><strong>Available:</strong> {{lot.availableSpace}}</p>
+        <p><strong>Total:</strong> {{lot.totalSpace}}</p>
+        <p><strong>Handicap:</strong> {{lot.handicapParking}}</p>
+      </div>
+
+    </div>
+
+  </div>
+
 </ion-content>

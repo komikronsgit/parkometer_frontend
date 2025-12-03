@@ -1,40 +1,38 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/location"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Reserve Parking</ion-title>
+    <ion-title>{{ lot?.name }} Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
-  <h2>{{ lotName }}</h2>
-<p>{{ availableSpaces }} spaces available</p>
-<p>Walk: {{ distance }}</p>
+  <div class="location-container">
 
+    <!-- LEFT: MAP -->
+    <div class="map-panel">
+      <div #map class="map-container"></div>
+    </div>
 
-  <!-- Start Time Dropdown -->
-  <ion-item class="ion-margin-top">
-    <ion-label>Start Time</ion-label>
-    <ion-select [(ngModel)]="startTime" interface="popover" (ionChange)="updateEndTimes()">
-      <ion-select-option *ngFor="let t of allTimes" [value]="t">
-        {{ t }}
-      </ion-select-option>
-    </ion-select>
-  </ion-item>
+    <!-- RIGHT: DETAILS -->
+    <div class="list-panel">
+      <h2 class="title">{{ lot?.name }}</h2>
 
-  <!-- End Time Dropdown -->
-  <ion-item>
-    <ion-label>End Time</ion-label>
-    <ion-select [(ngModel)]="endTime" interface="popover">
-      <ion-select-option *ngFor="let t of validEndTimes" [value]="t">
-        {{ t }}
-      </ion-select-option>
-    </ion-select>
-  </ion-item>
+      <p>{{ lot?.description }}</p>
 
-  <ion-button expand="block" color="success" class="ion-margin-top" (click)="reserve()">
-    Reserve
-  </ion-button>
+      <p><strong>Available Spaces:</strong> {{ lot?.availableSpace }}</p>
+      <p><strong>Total Spaces:</strong> {{ lot?.totalSpace }}</p>
+      <p><strong>Handicap:</strong> {{ lot?.handicapParking }}</p>
+
+      <ul>
+        <li>5 min walking distance</li>
+        <li>Nearest building: auto detect soon</li>
+      </ul>
+
+      <ion-button expand="block" class="reserve-btn">
+        Reserve & Park Now
+      </ion-button>
+    </div>
+
+  </div>
+
 </ion-content>

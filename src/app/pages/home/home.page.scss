@@ -10,20 +10,20 @@
   z-index: 0;
 }
 
-/* Dark overlay to make text readable */
+/* Dark overlay to make text readable 
 .map-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0);
   z-index: 1;
-}
+} */
 
 /* Search bar container at top */
 .search-container {
   position: absolute;
-  top: 20px;
+  top: 60px;
   left: 20px;
-  right: 20px;
+  right: 40px;
   z-index: 2;
 }
 
@@ -44,3 +44,4 @@
   font-size: 16px;
   outline: none;
 }
+

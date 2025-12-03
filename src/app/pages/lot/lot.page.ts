@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonButton, IonButtons, IonBackButton, IonItem,
-  IonLabel, IonSelect, IonSelectOption, IonContent,
-  IonHeader, IonTitle, IonToolbar, AlertController
-} from '@ionic/angular/standalone';
+  IonButton, 
+  IonContent,
+  IonHeader, IonTitle, IonToolbar} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
-import { ReservationService } from 'src/app/services/reservation';
+
+declare const google: any;
 
 @Component({
   selector: 'app-lot',
@@ -15,114 +15,44 @@ import { ReservationService } from 'src/app/services/reservation';
   styleUrls: ['./lot.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, FormsModule, IonButton, IonButtons, IonBackButton,
-    IonItem, IonLabel, IonSelect, IonSelectOption, IonContent,
+    CommonModule, FormsModule, IonButton, IonContent,
     IonHeader, IonTitle, IonToolbar
   ]
 })
-export class LotPage implements OnInit {
+export class LotPage implements OnInit, AfterViewInit {
 
-  lotName: string = '';
-  availableSpaces: number = 0;
-  distance: string = '';
+  @ViewChild('map', { static: false }) mapElement!: ElementRef;
 
-  allTimes: string[] = [];
-  validEndTimes: string[] = [];
+  lot: any;
+  map: any;
+  marker: any;
 
-  startTime: string = '';
-  endTime: string = '';
-
-  constructor(
-    private router: Router,
-    private reservationService: ReservationService,
-    private alertCtrl: AlertController
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
-  this.generateTimes();
-
-  const lot = this.reservationService.getLot();
-  
-  if (lot) {
-    this.lotName = lot.name;
-    this.availableSpaces = lot.availableSpaces;
-    this.distance = lot.distance;
+    const nav = this.router.getCurrentNavigation();
+    this.lot = nav?.extras?.state?.['lot'];
   }
-}
 
-
-  generateTimes() {
-    const times: string[] = [];
-    for (let h = 0; h < 24; h++) {
-      for (let m = 0; m < 60; m += 5) {
-        const hour = h % 12 === 0 ? 12 : h % 12;
-        const minute = m.toString().padStart(2, '0');
-        const ampm = h < 12 ? 'AM' : 'PM';
-        times.push(`${hour}:${minute} ${ampm}`);
-      }
+  ngAfterViewInit() {
+    if (this.lot) {
+      this.initMap();
     }
-    this.allTimes = times;
   }
 
-  toDate(timeStr: string): Date {
-    return new Date(`2000-01-01 ${timeStr}`);
-  }
+  initMap() {
+    const position = { lat: this.lot.lat, lng: this.lot.lng };
 
-  updateEndTimes() {
-    if (!this.startTime) {
-      this.validEndTimes = [];
-      return;
-    }
-
-    const start = this.toDate(this.startTime);
-    const maxEnd = new Date(start.getTime() + 2 * 60 * 60 * 1000);
-
-    this.validEndTimes = this.allTimes.filter(t => {
-      const tDate = this.toDate(t);
-      return tDate > start && tDate <= maxEnd;
+    this.map = new google.maps.Map(this.mapElement.nativeElement, {
+      center: position,
+      zoom: 18,
     });
 
-    if (!this.validEndTimes.includes(this.endTime)) {
-      this.endTime = '';
-    }
-  }
-
-  async reserve() {
-  if (!this.startTime || !this.endTime) {
-    alert("Please select a valid start and end time.");
-    return;
-  }
-
-    const alertBox = await this.alertCtrl.create({
-      header: 'Confirm Reservation',
-      message: `<strong>Lot:</strong> ${this.lotName}<br>
-      <strong>Start:</strong> ${this.startTime}<br>
-      <strong>End:</strong> ${this.endTime}<br><br>
-      Are you sure you want to reserve this spot?`,
-            buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Confirm',
-          role: 'confirm',
-          handler: () => this.saveReservation()
-        }
-      ]
+    this.marker = new google.maps.Marker({
+      position,
+      map: this.map,
+      title: this.lot.name,
     });
-
-
-  await alertBox.present();
-}
-
-
-  private saveReservation() {
-  this.reservationService.addReservation(
-    this.reservationService.getDestination(),
-    this.lotName,
-    this.startTime,
-    this.endTime
-  );
-
-  this.router.navigateByUrl('/account');
-}
+  }
 
 }
