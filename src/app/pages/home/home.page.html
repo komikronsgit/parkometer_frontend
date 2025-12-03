@@ -2,25 +2,33 @@
   <ion-toolbar color="primary" class="header-toolbar">
     <ion-title class="app-title">Packometer</ion-title>
 
-    <!-- Account icon -->
     <ion-buttons slot="end">
       <ion-button routerLink="/account">Account</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<!-- Search bar overlay -->
+<!-- Search bar overlay (restored) -->
 <div class="search-container ion-padding">
   <ion-item lines="none" class="search-item">
-    <!-- plain input so Google Places can attach easily -->
-    <input #searchInput type="text" class="search-input" placeholder="Search destination" (keyup.enter)="search()" />
-    <ion-button slot="end" shape="round" (click)="search()">Search</ion-button>
+
+    <input
+      #searchInput
+      type="text"
+      class="search-input"
+      placeholder="Search destination"
+      (keyup.enter)="search()"
+    />
+
+    <ion-button slot="end" shape="round" (click)="search()">
+      Search
+    </ion-button>
+
   </ion-item>
 </div>
 
 <ion-content fullscreen>
 
-  <!-- MAP CARD -->
   <div class="map-wrapper">
     <div class="map-card">
       <div class="map-container" #map></div>

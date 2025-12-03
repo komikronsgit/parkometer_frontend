@@ -2,7 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+  IonBackButton,
   IonButton, 
+  IonButtons, 
   IonContent,
   IonHeader, IonTitle, IonToolbar} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
@@ -16,7 +18,7 @@ declare const google: any;
   standalone: true,
   imports: [
     CommonModule, FormsModule, IonButton, IonContent,
-    IonHeader, IonTitle, IonToolbar
+    IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton
   ]
 })
 export class LotPage implements OnInit, AfterViewInit {
