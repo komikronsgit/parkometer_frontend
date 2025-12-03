@@ -1,25 +1,19 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonButton, 
-  IonContent,
-  IonHeader, IonTitle, IonToolbar} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 
 declare const google: any;
 
 @Component({
-  selector: 'app-lot',
-  templateUrl: './lot.page.html',
-  styleUrls: ['./lot.page.scss'],
+  selector: 'app-reserve',
+  templateUrl: './reserve.page.html',
+  styleUrls: ['./reserve.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule, FormsModule, IonButton, IonContent,
-    IonHeader, IonTitle, IonToolbar
-  ]
+  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class LotPage implements OnInit, AfterViewInit {
+export class ReservePage implements OnInit {
 
   @ViewChild('map', { static: false }) mapElement!: ElementRef;
 
@@ -53,9 +47,5 @@ export class LotPage implements OnInit, AfterViewInit {
       map: this.map,
       title: this.lot.name,
     });
-  }
-
-  onReserve() {
-    this.router.navigate(['/reserve'], { state: { lot: this.lot } });
   }
 }
