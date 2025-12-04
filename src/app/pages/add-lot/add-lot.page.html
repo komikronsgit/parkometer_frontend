@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin-dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Parking Lot</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding add-lot-container">
+
+  <div class="wrapper">
+
+    <!-- LEFT: GOOGLE MAP -->
+    <div id="map"></div>
+
+    <!-- RIGHT: LOT FORM -->
+    <div class="form-panel">
+      <h2>Add New Parking Lot</h2>
+
+      <p class="note">Click on the map to auto-fill coordinates</p>
+
+      <ion-item>
+        <ion-label position="floating">Parking Lot Name</ion-label>
+        <ion-input [(ngModel)]="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input [(ngModel)]="description"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Available Spaces</ion-label>
+        <ion-input type="number" [(ngModel)]="availableSpace"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Total Spaces</ion-label>
+        <ion-input type="number" [(ngModel)]="totalSpace"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Handicap</ion-label>
+        <ion-select [(ngModel)]="handicapParking">
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Latitude</ion-label>
+        <ion-input [disabled]="true" [value]="lat"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Longitude</ion-label>
+        <ion-input [disabled]="true" [value]="lng"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="success" class="ion-margin-top"
+                  (click)="addLot()">
+        Add Parking Lot
+      </ion-button>
+
+    </div>
+
+  </div>
+</ion-content>

@@ -30,8 +30,28 @@ export const routes: Routes = [
   },
   {
     path: 'reserve',
-    loadComponent: () => import('./pages/reserve/reserve.page').then( m => m.ReservePage)
-  }
+    loadComponent: () =>
+      import('./pages/reserve/reserve.page').then((m) => m.ReservePage),
+  },
 
+  // ======================
+  // ADMIN ROUTES
+  // ======================
+  {
+    path: 'admin-dashboard',
+    loadComponent: () =>
+      import('./pages/admin-dashboard/admin-dashboard.page').then(
+        (m) => m.AdminDashboardPage
+      ),
+  },
+  {
+    path: 'add-lot',
+    loadComponent: () =>
+      import('./pages/add-lot/add-lot.page').then((m) => m.AddLotPage),
+  },
+  {
+  path: 'manage-lots',
+  loadComponent: () =>
+    import('./pages/manage-lots/manage-lots.page').then(m => m.ManageLotsPage),
+}
 ];
-
