@@ -58,11 +58,8 @@ export class ReservationService {
 
   // Reservations
   addReservation(destination: string, lotName: string, startTime: string, endTime: string) {
-    const nowDate: Date = new Date();
-    let startDate: Date = new Date(`2000-01-01 ${startTime}`);
-    let endDate: Date = new Date(`2000-01-01 ${endTime}`);
-    startDate.setFullYear(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
-    endDate.setFullYear(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+    let startDate: Date = new Date(startTime);
+    let endDate: Date = new Date(endTime);
 
     this.http.post<dbFormatReservation>('http://localhost:3000/reservations', {
       username: this.auth.getUser()?.name,
@@ -81,9 +78,9 @@ export class ReservationService {
       id: r._id,
       destination: r.destination,
       lotName: r.lotName,
-      startTime: new Date(r.startTime).toTimeString().substring(0, 5),
-      endTime: new Date(r.endTime).toTimeString().substring(0, 5),
-      status: new Date(r.endTime) >= new Date() && new Date(r.startTime) <= new Date() ? 'active' : 'past',
+      startTime: r.startTime.toLocaleString(),
+      endTime: r.endTime.toLocaleString(),
+      status: r.endTime >= new Date() && new Date(r.startTime) <= new Date() ? 'active' : 'past',
     }));
   }
 

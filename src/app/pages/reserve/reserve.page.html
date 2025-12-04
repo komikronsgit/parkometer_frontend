@@ -39,11 +39,29 @@
       <h3 class="form-heading">Reservation Period</h3>
 
       <!-- Trigger field -->
-      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      <ion-datetime-button datetime="datetimeIn"></ion-datetime-button>
 
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime id="datetime" presentation="date-time" value="2023-11-02T01:22:00" [formatOptions]="{
+          <ion-datetime id="datetimeIn" [(ngModel)]="form.timeIn" presentation="date-time" [formatOptions]="{
+        date: {
+          weekday: 'short',
+          month: 'long',
+          day: '2-digit',
+        },
+        time: {
+          hour: '2-digit',
+          minute: '2-digit',
+        },
+        }"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+      <ion-datetime-button datetime="datetimeOut"></ion-datetime-button>
+
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime id="datetimeOut" presentation="date-time" [formatOptions]="{
         date: {
           weekday: 'short',
           month: 'long',
