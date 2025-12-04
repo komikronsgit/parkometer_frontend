@@ -1,28 +1,20 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
-
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import {
   IonButton,
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonRouterLink,
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
-
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { ReservationService } from 'src/app/services/reservation';
+import { HttpClient } from '@angular/common/http';
 
 declare const google: any;
 
@@ -47,8 +39,8 @@ declare const google: any;
 export class HomePage implements OnInit, AfterViewInit {
 
   destination = '';
-  parkingLots: any[] = [];
-  markers: any[] = [];
+  parkingLots: any[] = [];   // <— data comes from backend
+  markers: any[] = [];       // <— store markers so we can refresh them
 
   infoWindow: any;
 
@@ -60,12 +52,12 @@ export class HomePage implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private http: HttpClient,              // <— Added HttpClient
     private reservationService: ReservationService
   ) {}
 
   ngOnInit() {
-    this.loadParkingLotsFromBackend();
+    this.loadParkingLotsFromBackend();     // <— load backend data first
   }
 
   ngAfterViewInit() {
@@ -73,17 +65,21 @@ export class HomePage implements OnInit, AfterViewInit {
     this.initAutocomplete();
   }
 
-  // Load parking lots from backend
+  // ✅ STEP 1 — Load from backend API
   loadParkingLotsFromBackend() {
-    this.http.get<any[]>('http://localhost:3000/lots')
-      .subscribe({
-        next: (data) => {
-          this.parkingLots = data;
-          this.placeParkingMarkers();
-        },
-        error: (err) => console.error("Failed to load parking lots", err)
-      });
-  }
+  this.http.get<any[]>('http://localhost:3000/lots')
+    .subscribe({
+      next: (data) => {
+        console.log("Parking lots loaded:", data);
+        this.parkingLots = data;
+        this.placeParkingMarkers();
+      },
+      error: (err) => {
+        console.error("Failed to load parking lots", err);
+      }
+    });
+}
+
 
   private initMap() {
     const center = { lat: 43.468, lng: -79.699 };
@@ -111,68 +107,52 @@ export class HomePage implements OnInit, AfterViewInit {
 
       this.map.panTo(location);
       this.map.setZoom(18);
+
+      this.placeParkingMarkers();  // <— redraw markers after moving map
     });
   }
 
-  // Place markers + clickable info window card
+  // ✅ STEP 2 — Place markers using BACKEND data
   private placeParkingMarkers() {
 
-    this.markers.forEach(m => m.setMap(null));
-    this.markers = [];
+  // Remove old markers
+  this.markers.forEach(m => m.setMap(null));
+  this.markers = [];
 
-    this.parkingLots.forEach((lot) => {
+  this.parkingLots.forEach((lot) => {
 
-      const marker = new google.maps.Marker({
-        position: { lat: lot.lat, lng: lot.lng },
-        map: this.map,
-        title: lot.name,
-      });
+    const marker = new google.maps.Marker({
+      position: { lat: lot.lat, lng: lot.lng },
+      map: this.map,
+      title: lot.name,
+    });
 
-      this.markers.push(marker);
+    this.markers.push(marker);
 
-      const content = document.createElement("div");
-      content.style.cssText = `
-        font-size: 14px;
-        max-width: 240px;
-        background-color: #e0f7fa;
-        padding: 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        color: black;
-      `;
-
-      content.innerHTML = `
+    // Clean UI for info window
+    const html = `
+      <div style="font-size:14px; max-width: 240px; background-color: #e0f7fa; color: black; padding: 10px; border-radius: 4px;">
         <strong>${lot.name}</strong><br/>
-        ${lot.description}<br/><br/>
-
+        <span>${lot.description}</span><br/><br/>
         <b>Available:</b> ${lot.availableSpace}<br/>
         <b>Total Spaces:</b> ${lot.totalSpace}<br/>
         <b>Handicap:</b> ${lot.handicapParking}
-      `;
+      </div>
+    `;
 
-      // Clicking popup → navigate to details
-      content.addEventListener("click", () => {
-        this.openLot(lot);
-      });
-
-      // Clicking marker → show popup
-      marker.addListener("click", () => {
-        this.infoWindow.setContent(content);
-        this.infoWindow.open(this.map, marker);
-      });
-
+    marker.addListener("click", () => {
+      this.infoWindow.setContent(html);
+      this.infoWindow.open(this.map, marker);
     });
-  }
 
-  // Search → go to /location
+  });
+}
+
+
   search() {
     if (!this.destination.trim()) return;
 
     this.reservationService.setDestination(this.destination);
     this.router.navigateByUrl('/location');
-  }
-
-  openLot(lot: any) {
-    this.router.navigate(['/lot'], { state: { lot } });
   }
 }

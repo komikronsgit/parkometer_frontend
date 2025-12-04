@@ -1,0 +1,26 @@
+.add-lot-container {
+  --background: #0a2a66;
+}
+
+.wrapper {
+  display: flex;
+  height: 100%;
+}
+
+#map {
+  width: 60%;
+  height: 100vh;
+}
+
+.form-panel {
+  width: 40%;
+  padding: 20px;
+  background: #0b3fa8;
+  color: white;
+}
+
+.note {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}

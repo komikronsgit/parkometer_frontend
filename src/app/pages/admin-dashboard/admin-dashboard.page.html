@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Parking Lot Management</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Parking Lot Management</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-button expand="block" color="success" routerLink="/add-lot" class="ion-margin-bottom">
+        ADD NEW PARKING LOT
+      </ion-button>
+
+      <ion-button expand="block" color="primary" routerLink="/home">
+        VIEW PARKING LOTS (USER VIEW)
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Existing Parking Lots</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let lot of lots">
+          <ion-label>
+            <h2>{{ lot.name }}</h2>
+            <p>
+              <strong>Spaces:</strong> {{ lot.availableSpace }}/{{ lot.totalSpace }}<br>
+              <strong>Lat:</strong> {{ lot.lat }}<br>
+              <strong>Lng:</strong> {{ lot.lng }}
+            </p>
+          </ion-label>
+
+          <ion-button color="warning" fill="solid" (click)="editLot(lot)" class="ion-margin-end">
+            Edit
+          </ion-button>
+
+          <ion-button color="danger" fill="solid" (click)="deleteLot(lot._id)">
+            Delete
+          </ion-button>

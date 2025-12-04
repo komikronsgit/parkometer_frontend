@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Edit Parking Lot</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="lotForm" (ngSubmit)="submitForm()">
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input formControlName="description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Total Spaces</ion-label>
+      <ion-input type="number" formControlName="totalSpace"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Available Spaces</ion-label>
+      <ion-input type="number" formControlName="availableSpace"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Latitude</ion-label>
+      <ion-input type="number" formControlName="lat"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Longitude</ion-label>
+      <ion-input type="number" formControlName="lng"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Handicap Parking</ion-label>
+      <ion-input formControlName="handicapParking"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" color="success" class="ion-margin-top">
+      Save Changes
+    </ion-button>
+
+    <ion-button expand="block" color="danger" class="ion-margin-top" (click)="deleteLot()">
+      Delete Lot
+    </ion-button>
+  </form>
+</ion-content>

@@ -1,4 +1,5 @@
 /* Make map fill the whole screen */
+/* Make map fill the whole screen */
 .map-container {
   position: absolute;
   top: 0;
@@ -17,10 +18,19 @@
   left: 20px;
   right: 40px;
   z-index: 2;
+  top: 60px;
+  left: 20px;
+  right: 40px;
+  z-index: 2;
 }
 
 /* Make search bar stretch full width */
+/* Make search bar stretch full width */
 .search-item {
+  --background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  padding: 4px 10px;
+  width: 100%;
   --background: rgba(0, 0, 0, 0.7);
   border-radius: 12px;
   padding: 4px 10px;
@@ -29,7 +39,9 @@
 
 .search-input {
   width: 100%;
+  width: 100%;
   flex: 1;
+  border: none;
   border: none;
   background: transparent;
   color: white;

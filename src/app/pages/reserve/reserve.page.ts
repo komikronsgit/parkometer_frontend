@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonBackButton, IonButtons, IonLabel, IonItem, IonSelectOption, IonDatetime, IonModal, IonInput, IonDatetimeButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { IonBackButton } from '@ionic/angular/standalone';
+import { IonButtons } from '@ionic/angular/standalone';
 
 declare const google: any;
 
