@@ -50,8 +50,8 @@ export const routes: Routes = [
       import('./pages/add-lot/add-lot.page').then((m) => m.AddLotPage),
   },
   {
-  path: 'manage-lots',
-  loadComponent: () =>
-    import('./pages/manage-lots/manage-lots.page').then(m => m.ManageLotsPage),
-}
+    path: 'manage-lots',
+    loadComponent: () =>
+      import('./pages/manage-lots/manage-lots.page').then((m) => m.ManageLotPage),
+  }
 ];

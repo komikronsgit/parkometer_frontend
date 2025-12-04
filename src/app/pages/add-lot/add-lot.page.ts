@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import {
   IonBackButton,
   IonButtons,
@@ -54,7 +55,7 @@ export class AddLotPage implements OnInit {
   totalSpace: number | null = null;
   handicapParking = 'No';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
     setTimeout(() => this.loadMap(), 300);
@@ -101,7 +102,11 @@ export class AddLotPage implements OnInit {
     };
 
     this.http.post("http://localhost:3000/lots", data).subscribe({
-      next: () => alert("Parking lot added successfully!"),
+      next: () => {
+        alert("Parking lot added successfully!");
+        // ✅ use Angular Router for redirect
+        this.router.navigate(['/admin-dashboard']);
+      },
       error: () => alert("Error adding lot")
     });
   }

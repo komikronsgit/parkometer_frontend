@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { IonBackButton } from '@ionic/angular/standalone';
+import { IonButtons } from '@ionic/angular/standalone';
 
 declare const google: any;
 
@@ -11,7 +13,7 @@ declare const google: any;
   templateUrl: './reserve.page.html',
   styleUrls: ['./reserve.page.scss'],
   standalone: true,
-  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons, CommonModule, FormsModule]
 })
 export class ReservePage implements OnInit {
 

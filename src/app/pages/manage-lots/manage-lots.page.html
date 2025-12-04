@@ -1,51 +1,52 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Manage Parking Lots</ion-title>
+    <ion-title>Edit Parking Lot</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <form [formGroup]="lotForm" (ngSubmit)="submitForm()">
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Existing Parking Lots</ion-card-title>
-    </ion-card-header>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input formControlName="description"></ion-input>
+    </ion-item>
 
-    <ion-card-content>
+    <ion-item>
+      <ion-label position="floating">Total Spaces</ion-label>
+      <ion-input type="number" formControlName="totalSpace"></ion-input>
+    </ion-item>
 
-      <ion-list>
+    <ion-item>
+      <ion-label position="floating">Available Spaces</ion-label>
+      <ion-input type="number" formControlName="availableSpace"></ion-input>
+    </ion-item>
 
-        <ion-item *ngFor="let lot of lots">
-          <ion-label>
-            <h2>{{ lot.name }}</h2>
-            <p>
-              <strong>Spaces:</strong> {{ lot.availableSpace }}/{{ lot.totalSpace }}<br>
-              <strong>Lat:</strong> {{ lot.lat }}<br>
-              <strong>Lng:</strong> {{ lot.lng }}
-            </p>
-          </ion-label>
+    <ion-item>
+      <ion-label position="floating">Latitude</ion-label>
+      <ion-input type="number" formControlName="lat"></ion-input>
+    </ion-item>
 
-          <ion-button
-            color="warning"
-            fill="solid"
-            (click)="editLot(lot)"
-            class="ion-margin-end"
-          >
-            Edit
-          </ion-button>
+    <ion-item>
+      <ion-label position="floating">Longitude</ion-label>
+      <ion-input type="number" formControlName="lng"></ion-input>
+    </ion-item>
 
-          <ion-button
-            color="danger"
-            fill="solid"
-            (click)="deleteLot(lot._id)"
-          >
-            Delete
-          </ion-button>
-        </ion-item>
+    <ion-item>
+      <ion-label position="floating">Handicap Parking</ion-label>
+      <ion-input formControlName="handicapParking"></ion-input>
+    </ion-item>
 
-      </ion-list>
+    <ion-button expand="block" type="submit" color="success" class="ion-margin-top">
+      Save Changes
+    </ion-button>
 
-    </ion-card-content>
-  </ion-card>
-
+    <ion-button expand="block" color="danger" class="ion-margin-top" (click)="deleteLot()">
+      Delete Lot
+    </ion-button>
+  </form>
 </ion-content>
