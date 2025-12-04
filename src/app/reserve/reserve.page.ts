@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonBackButton, IonButtons, IonLabel, IonItem, IonSelectOption, IonDatetime, IonModal, IonInput, IonDatetimeButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 
 declare const google: any;
@@ -11,9 +11,19 @@ declare const google: any;
   templateUrl: './reserve.page.html',
   styleUrls: ['./reserve.page.scss'],
   standalone: true,
-  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
+    FormsModule, IonBackButton, IonButtons, IonLabel, IonItem, IonDatetime, IonModal, IonInput, IonDatetimeButton]
 })
-export class ReservePage implements OnInit {
+export class ReservePage implements OnInit, AfterViewInit {
+
+  form = {
+    name: '',
+    plate: '',
+    date: ''as string | null,
+    timeIn: '',
+    timeOut: '',
+    period: ''
+  };
 
   @ViewChild('map', { static: false }) mapElement!: ElementRef;
 
@@ -47,5 +57,10 @@ export class ReservePage implements OnInit {
       map: this.map,
       title: this.lot.name,
     });
+  }
+
+  onReserve() {
+    console.log('Reservation data:', this.form, 'Lot:', this.lot);
+    // later: call backend API here
   }
 }

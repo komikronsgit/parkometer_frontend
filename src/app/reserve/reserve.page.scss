@@ -24,9 +24,42 @@
   background: #0f38a0;
 }
 
-.save-btn {
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.reserve-btn {
   margin-top: 20px;
   border-radius: 30px;
   font-size: 16px;
   --background: #3b82f6;
+}
+
+.form-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 16px 0 8px;
+  color: #fff;
+}
+
+ion-item {
+  margin-bottom: 12px;
+  background: black;
+  color: #fff;
+}
+
+ion-label {
+  font-weight: bold;
+  color: #fff;
+}
+
+ion-input {
+  color: #fff;
+}
+
+.divider {
+  border-bottom: 1px solid #fff;
+  margin: 12px 0;
 }
