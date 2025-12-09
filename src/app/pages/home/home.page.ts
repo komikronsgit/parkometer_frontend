@@ -115,38 +115,52 @@ export class HomePage implements OnInit, AfterViewInit {
   // ✅ STEP 2 — Place markers using BACKEND data
   private placeParkingMarkers() {
 
-  // Remove old markers
-  this.markers.forEach(m => m.setMap(null));
-  this.markers = [];
+    // Remove old markers
+    this.markers.forEach(m => m.setMap(null));
+    this.markers = [];
 
-  this.parkingLots.forEach((lot) => {
+    this.parkingLots.forEach((lot) => {
 
-    const marker = new google.maps.Marker({
-      position: { lat: lot.lat, lng: lot.lng },
-      map: this.map,
-      title: lot.name,
-    });
+      const marker = new google.maps.Marker({
+        position: { lat: lot.lat, lng: lot.lng },
+        map: this.map,
+        title: lot.name,
+      });
 
-    this.markers.push(marker);
+      this.markers.push(marker);
 
-    // Clean UI for info window
-    const html = `
-      <div style="font-size:14px; max-width: 240px; background-color: #e0f7fa; color: black; padding: 10px; border-radius: 4px;">
+      const content = document.createElement('div');
+
+      // Clean UI for info window
+      content.innerHTML = `
         <strong>${lot.name}</strong><br/>
         <span>${lot.description}</span><br/><br/>
         <b>Available:</b> ${lot.availableSpace}<br/>
         <b>Total Spaces:</b> ${lot.totalSpace}<br/>
         <b>Handicap:</b> ${lot.handicapParking}
-      </div>
-    `;
+      `;
 
-    marker.addListener("click", () => {
-      this.infoWindow.setContent(html);
-      this.infoWindow.open(this.map, marker);
+      content.style.cssText = `
+        font-size: 14px;
+        max-width: 240px;
+        background-color: #e0f7fa;
+        padding: 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        color: black;
+      `;
+
+      // Clicking popup → navigate to details
+      content.addEventListener('click', () => {
+        this.openLot(lot);
+      });
+
+      marker.addListener("click", () => {
+       this.infoWindow.setContent(content);
+       this.infoWindow.open(this.map, marker);
+      });
     });
-
-  });
-}
+  }
 
 
   search() {
@@ -154,5 +168,9 @@ export class HomePage implements OnInit, AfterViewInit {
 
     this.reservationService.setDestination(this.destination);
     this.router.navigateByUrl('/location');
+  }
+
+  openLot(lot: any) {
+    this.router.navigate(['/lot'], { state: { lot } });
   }
 }
