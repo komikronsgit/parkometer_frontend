@@ -21,8 +21,8 @@ export class ReservePage implements OnInit, AfterViewInit {
     name: '',
     plate: '',
     date: ''as string | null,
-    timeIn: '2023-11-02T01:22:00',
-    timeOut: '2023-11-02T01:22:00',
+    timeIn: new Date().toISOString(),
+    timeOut: new Date().toISOString(),
     period: ''
   };
 
