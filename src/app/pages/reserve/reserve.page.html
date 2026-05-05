@@ -61,7 +61,7 @@
 
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime id="datetimeOut" presentation="date-time" [formatOptions]="{
+          <ion-datetime id="datetimeOut" [(ngModel)]="form.timeOut" presentation="date-time" [formatOptions]="{
         date: {
           weekday: 'short',
           month: 'long',
