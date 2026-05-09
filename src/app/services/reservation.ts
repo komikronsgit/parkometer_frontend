@@ -8,6 +8,7 @@ export interface Reservation {
   id: string;
   destination: string;
   lotName: string;
+  plate: string;
   startTime: string;
   endTime: string;
   status: 'active' | 'past';
@@ -24,6 +25,7 @@ export interface dbFormatReservation {
   username: string;
   destination: string;
   lotName: string;
+  plate: string;
   startTime: Date;
   endTime: Date;
 }
@@ -57,7 +59,7 @@ export class ReservationService {
   }
 
   // Reservations
-  addReservation(destination: string, lotName: string, startTime: string, endTime: string) {
+  addReservation(destination: string, lotName: string, plate: string, startTime: string, endTime: string) {
     let startDate: Date = new Date(startTime);
     let endDate: Date = new Date(endTime);
 
@@ -65,6 +67,7 @@ export class ReservationService {
       username: this.auth.getUser()?.name,
       destination,
       lotName,
+      plate,
       startTime: startDate,
       endTime: endDate,
     }).subscribe();
@@ -78,6 +81,7 @@ export class ReservationService {
       id: r._id,
       destination: r.destination,
       lotName: r.lotName,
+      plate: r.plate,
       startTime: r.startTime.toLocaleString(),
       endTime: r.endTime.toLocaleString(),
       status: r.endTime >= new Date() && new Date(r.startTime) <= new Date() ? 'active' : 'past',

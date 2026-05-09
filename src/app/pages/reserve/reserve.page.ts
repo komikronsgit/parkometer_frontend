@@ -65,6 +65,7 @@ export class ReservePage implements OnInit, AfterViewInit {
     this.reservationService.addReservation(
       this.lot.description,
       this.lot.name,
+      this.form.plate!,
       this.form.timeIn!,
       this.form.timeOut!
     );
