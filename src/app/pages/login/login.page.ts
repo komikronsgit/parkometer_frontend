@@ -54,7 +54,6 @@ export class LoginPage implements OnInit {
   password = '';
   confirmPassword = '';
   phoneNumber = '';
-  plateNumber = '';
 
   constructor(
     private auth: AuthService,
@@ -64,7 +63,6 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
 
-    // ADMIN LOGIN
     if (this.name === 'admin' && this.password === 'admin') {
       try {
         await this.http.post('http://localhost:3000/admin/login', {
@@ -81,7 +79,6 @@ export class LoginPage implements OnInit {
       }
     }
 
-    // NORMAL USER LOGIN
     if (await this.auth.login(this.name, this.password)) {
       this.router.navigateByUrl('/home');
     } else {
@@ -99,8 +96,7 @@ export class LoginPage implements OnInit {
       name: this.name,
       email: this.email,
       password: this.password,
-      phone: this.phoneNumber,
-      plate: this.plateNumber
+      phone: this.phoneNumber
     });
 
     this.router.navigateByUrl('/home');

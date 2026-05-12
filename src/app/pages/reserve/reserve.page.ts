@@ -1,7 +1,21 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonBackButton, IonButtons, IonLabel, IonItem, IonSelectOption, IonDatetime, IonModal, IonInput, IonDatetimeButton } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonButton,
+  IonBackButton,
+  IonButtons,
+  IonLabel,
+  IonItem,
+  IonDatetime,
+  IonModal,
+  IonInput,
+  IonDatetimeButton
+} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { ReservationService } from 'src/app/services/reservation';
 
@@ -12,18 +26,30 @@ declare const google: any;
   templateUrl: './reserve.page.html',
   styleUrls: ['./reserve.page.scss'],
   standalone: true,
-  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
-    FormsModule, IonBackButton, IonButtons, IonLabel, IonItem, IonDatetime, IonModal, IonInput, IonDatetimeButton]
+  imports: [
+    IonButton,
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    CommonModule,
+    FormsModule,
+    IonBackButton,
+    IonButtons,
+    IonLabel,
+    IonItem,
+    IonDatetime,
+    IonModal,
+    IonInput,
+    IonDatetimeButton
+  ]
 })
 export class ReservePage implements OnInit, AfterViewInit {
 
   form = {
-    name: '',
     plate: '',
-    date: ''as string | null,
     timeIn: new Date().toISOString(),
-    timeOut: new Date().toISOString(),
-    period: ''
+    timeOut: new Date().toISOString()
   };
 
   @ViewChild('map', { static: false }) mapElement!: ElementRef;
@@ -32,7 +58,10 @@ export class ReservePage implements OnInit, AfterViewInit {
   map: any;
   marker: any;
 
-  constructor(private router: Router, private reservationService: ReservationService) {}
+  constructor(
+    private router: Router,
+    private reservationService: ReservationService
+  ) {}
 
   ngOnInit() {
     const nav = this.router.getCurrentNavigation();
@@ -60,14 +89,26 @@ export class ReservePage implements OnInit, AfterViewInit {
     });
   }
 
-  onReserve() {
-    console.log('Reservation data:', this.form, 'Lot:', this.lot);
-    this.reservationService.addReservation(
+  async onReserve() {
+    if (!this.form.plate.trim()) {
+      alert('Please enter your vehicle plate.');
+      return;
+    }
+
+    if (!this.lot) {
+      alert('Parking lot not found.');
+      return;
+    }
+
+    await this.reservationService.addReservation(
       this.lot.description,
       this.lot.name,
-      this.form.plate!,
-      this.form.timeIn!,
-      this.form.timeOut!
+      this.form.plate,
+      this.form.timeIn,
+      this.form.timeOut
     );
+
+    alert('Reservation created successfully!');
+    this.router.navigateByUrl('/account');
   }
 }

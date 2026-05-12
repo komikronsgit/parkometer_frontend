@@ -11,49 +11,44 @@
 
   <div class="location-container">
 
-    <!-- LEFT: MAP -->
     <div class="map-panel">
       <div #map class="map-container"></div>
     </div>
 
-    <!-- RIGHT: DETAILS -->
     <div class="list-panel">
       <h2 class="title">{{ lot?.name }}</h2>
 
       <h3 class="form-heading">Reservation Details</h3>
-
-      <!-- FORM FIELDS -->
-      <ion-item>
-        <ion-label position="stacked">Name</ion-label>
-        <ion-input [(ngModel)]="form.name" placeholder="Enter your name"></ion-input>
-      </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Vehicle Plate</ion-label>
         <ion-input [(ngModel)]="form.plate" placeholder="Enter vehicle plate"></ion-input>
       </ion-item>
 
-      <!-- THIN WHITE LINE -->
       <div class="divider"></div>
 
       <h3 class="form-heading">Reservation Period</h3>
 
-      <!-- Trigger field -->
       <ion-datetime-button datetime="datetimeIn"></ion-datetime-button>
 
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime id="datetimeIn" [(ngModel)]="form.timeIn" presentation="date-time" [formatOptions]="{
-        date: {
-          weekday: 'short',
-          month: 'long',
-          day: '2-digit',
-        },
-        time: {
-          hour: '2-digit',
-          minute: '2-digit',
-        },
-        }"></ion-datetime>
+          <ion-datetime
+            id="datetimeIn"
+            [(ngModel)]="form.timeIn"
+            presentation="date-time"
+            [formatOptions]="{
+              date: {
+                weekday: 'short',
+                month: 'long',
+                day: '2-digit'
+              },
+              time: {
+                hour: '2-digit',
+                minute: '2-digit'
+              }
+            }">
+          </ion-datetime>
         </ng-template>
       </ion-modal>
 
@@ -61,20 +56,24 @@
 
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime id="datetimeOut" [(ngModel)]="form.timeOut" presentation="date-time" [formatOptions]="{
-        date: {
-          weekday: 'short',
-          month: 'long',
-          day: '2-digit',
-        },
-        time: {
-          hour: '2-digit',
-          minute: '2-digit',
-        },
-      }"></ion-datetime>
+          <ion-datetime
+            id="datetimeOut"
+            [(ngModel)]="form.timeOut"
+            presentation="date-time"
+            [formatOptions]="{
+              date: {
+                weekday: 'short',
+                month: 'long',
+                day: '2-digit'
+              },
+              time: {
+                hour: '2-digit',
+                minute: '2-digit'
+              }
+            }">
+          </ion-datetime>
         </ng-template>
       </ion-modal>
-
 
       <ion-button expand="block" class="reserve-btn" (click)="onReserve()">
         Reserve

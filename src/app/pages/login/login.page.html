@@ -12,7 +12,6 @@
 
     <ion-card-content>
 
-      <!-- LOGIN / SIGN UP SWITCH -->
       <ion-segment [(ngModel)]="segment" name="segment">
         <ion-segment-button value="login">
           <ion-label>Login</ion-label>
@@ -22,7 +21,6 @@
         </ion-segment-button>
       </ion-segment>
 
-      <!-- LOGIN SECTION -->
       <div *ngIf="segment === 'login'" class="ion-margin-top">
         <ion-item>
           <ion-label position="floating">User Name</ion-label>
@@ -39,7 +37,6 @@
         </ion-button>
       </div>
 
-      <!-- SIGN UP SECTION -->
       <div *ngIf="segment === 'signup'" class="ion-margin-top">
 
         <ion-item>
@@ -58,11 +55,6 @@
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">License Plate</ion-label>
-          <ion-input [(ngModel)]="plateNumber"></ion-input>
-        </ion-item>
-
-        <ion-item>
           <ion-label position="floating">Password</ion-label>
           <ion-input type="password" [(ngModel)]="password"></ion-input>
         </ion-item>
@@ -78,12 +70,10 @@
 
       </div>
 
-      <!-- DIVIDER -->
       <ion-item lines="none" class="ion-margin-top">
         <ion-label class="ion-text-center">or</ion-label>
       </ion-item>
 
-      <!-- GUEST BUTTON -->
       <ion-button expand="block" fill="outline" color="medium" (click)="onGuest()">
         Continue as Guest
       </ion-button>

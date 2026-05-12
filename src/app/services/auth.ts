@@ -26,7 +26,6 @@ export class AuthService {
         name,
         email: 'user@provider.com',
         carType: 'Sedan',
-        plate: 'ABC-123',
         isGuest: false,
       };
       return true;
@@ -40,20 +39,17 @@ export class AuthService {
     email: string;
     password: string;
     phone?: string;
-    plate?: string;
   }) {
     this.currentUser = {
       name: data.name,
       email: data.email,
       phone: data.phone ?? '',
-      plate: data.plate ?? '',
       isGuest: false,
       carType: 'Unknown',
     };
-    
+
     this.http.post('http://localhost:3000/users', data).subscribe();
   }
-
 
   continueAsGuest(): void {
     this.currentUser = {

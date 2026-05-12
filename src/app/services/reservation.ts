@@ -26,8 +26,8 @@ export interface dbFormatReservation {
   destination: string;
   lotName: string;
   plate: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
 }
 
 @Injectable({
@@ -36,12 +36,9 @@ export interface dbFormatReservation {
 export class ReservationService {
   private selectedDestination = '';
   private selectedLot: any = null;
-  private reservations: Reservation[] = [];
-  private nextId = 1;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  // Destination & lot selection
   setDestination(dest: string) {
     this.selectedDestination = dest;
   }
@@ -58,41 +55,54 @@ export class ReservationService {
     return this.selectedLot;
   }
 
-  // Reservations
-  addReservation(destination: string, lotName: string, plate: string, startTime: string, endTime: string) {
-    let startDate: Date = new Date(startTime);
-    let endDate: Date = new Date(endTime);
+  async addReservation(
+    destination: string,
+    lotName: string,
+    plate: string,
+    startTime: string,
+    endTime: string
+  ): Promise<dbFormatReservation> {
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
 
-    this.http.post<dbFormatReservation>('http://localhost:3000/reservations', {
-      username: this.auth.getUser()?.name,
-      destination,
-      lotName,
-      plate,
-      startTime: startDate,
-      endTime: endDate,
-    }).subscribe();
+    return await lastValueFrom(
+      this.http.post<dbFormatReservation>('http://localhost:3000/reservations', {
+        username: this.auth.getUser()?.name,
+        destination,
+        lotName,
+        plate,
+        startTime: startDate,
+        endTime: endDate,
+      })
+    );
   }
 
   async getReservations(): Promise<Reservation[]> {
     const savedData = await lastValueFrom(this.http.get<dbFormatReservation[]>(
       `http://localhost:3000/reservations/user/${this.auth.getUser()?.name}`
     ));
-    return savedData.map(r => ({
-      id: r._id,
-      destination: r.destination,
-      lotName: r.lotName,
-      plate: r.plate,
-      startTime: r.startTime.toLocaleString(),
-      endTime: r.endTime.toLocaleString(),
-      status: r.endTime >= new Date() && new Date(r.startTime) <= new Date() ? 'active' : 'past',
-    }));
+
+    return savedData.map(r => {
+      const start = new Date(r.startTime);
+      const end = new Date(r.endTime);
+      const now = new Date();
+
+      return {
+        id: r._id,
+        destination: r.destination,
+        lotName: r.lotName,
+        plate: r.plate,
+        startTime: start.toLocaleString(),
+        endTime: end.toLocaleString(),
+        status: end >= now && start <= now ? 'active' : 'past',
+      };
+    });
   }
 
   deleteReservation(id: string) {
     this.http.delete(`http://localhost:3000/reservations/${id}`).subscribe();
   }
 
-  // Very simple "change time" – just replaces times
   updateReservationTime(id: string, newStart: string, newEnd: string) {
     this.http.put(`http://localhost:3000/reservations/${id}`, {
       startTime: new Date(`2000-01-01 ${newStart}`),
